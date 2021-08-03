@@ -20,16 +20,18 @@ class HTU21DF():
         
         
     def temperature(self):
+        """Temperatyre in degree Celsius"""
         buff = self.i2c.readfrom_mem(self.addr,regAddresstemp,TO_READ) #read 6 bytes of data from register address
         temp=(buff[0] << 8) + buff[0] #Parse data
         return -46.85 + (175.72 * temp / 65536) #formula from datasheet
     
     def humidity(self):
+        """Humdity percentage"""
         buff = self.i2c.readfrom_mem(self.addr,regAddresshum,TO_READ) #read 6 bytes of data from register address
         hum=(buff[0] << 8) + buff[0] #Parse data
         return -6 + (125.0 * hum/ 65536) #formula from datasheet
     
-i2c = I2C("I2C_0") #Initialise I2C class
+i2c = I2C("I2C_0") #Initialise I2C instance
 tandh=HTU21DF(i2c)
 while True:
     t=tandh.temperature()
